@@ -4,11 +4,27 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
-}
+// Create a mock client when Supabase is not configured
+const createMockClient = () => ({
+  from: () => ({
+    select: () => ({ single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } }) }),
+    insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }) }) }),
+    update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }) }) }) }),
+    order: () => Promise.resolve({ data: [], error: null })
+  }),
+  storage: {
+    from: () => ({
+      upload: () => Promise.resolve({ error: new Error('Supabase not configured') }),
+      getPublicUrl: () => ({ data: { publicUrl: '' } })
+    })
+  }
+});
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = (!supabaseUrl || !supabaseAnonKey) 
+  ? createMockClient() 
+  : createClient(supabaseUrl, supabaseAnonKey);
+
+export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
 
 export type SiteSettings = {
   id: string;

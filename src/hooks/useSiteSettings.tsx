@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { supabase, type SiteSettings } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured, type SiteSettings } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 export const useSiteSettings = () => {
@@ -14,6 +14,20 @@ export const useSiteSettings = () => {
 
   const fetchSettings = async () => {
     try {
+      if (!isSupabaseConfigured) {
+        // Use local state when Supabase is not configured
+        const localSettings = {
+          id: 'local',
+          logo_url: null,
+          cover_image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+          founder_image_url: null,
+          updated_at: new Date().toISOString()
+        };
+        setSettings(localSettings);
+        setLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('site_settings')
         .select('*')
@@ -45,9 +59,19 @@ export const useSiteSettings = () => {
     } catch (error) {
       console.error('Error fetching settings:', error);
       toast({
-        title: "Error loading settings",
-        description: "Using default configuration."
+        title: "Connect to Supabase",
+        description: "To save your uploaded images permanently, please connect to Supabase using the button in the top right."
       });
+      
+      // Fallback to local settings
+      const fallbackSettings = {
+        id: 'local',
+        logo_url: null,
+        cover_image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
+        founder_image_url: null,
+        updated_at: new Date().toISOString()
+      };
+      setSettings(fallbackSettings);
     } finally {
       setLoading(false);
     }
@@ -55,6 +79,16 @@ export const useSiteSettings = () => {
 
   const updateSetting = async (field: keyof Omit<SiteSettings, 'id' | 'updated_at'>, value: string) => {
     try {
+      if (!isSupabaseConfigured) {
+        // Update local state only
+        setSettings(prev => prev ? { ...prev, [field]: value } : null);
+        toast({
+          title: "Temporary update",
+          description: "Changes are temporary. Connect to Supabase to save permanently."
+        });
+        return;
+      }
+
       const { data, error } = await supabase
         .from('site_settings')
         .update({ [field]: value })

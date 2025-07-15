@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
 
 export const useImageUpload = () => {
@@ -10,6 +10,16 @@ export const useImageUpload = () => {
   const uploadImage = async (file: File, bucket: string, path: string) => {
     setUploading(true);
     try {
+      if (!isSupabaseConfigured) {
+        // Return a temporary URL when Supabase is not configured
+        const tempUrl = URL.createObjectURL(file);
+        toast({
+          title: "Temporary upload",
+          description: "Image uploaded temporarily. Connect to Supabase to save permanently."
+        });
+        return tempUrl;
+      }
+
       const fileExt = file.name.split('.').pop();
       const fileName = `${path}-${Date.now()}.${fileExt}`;
       const filePath = `${bucket}/${fileName}`;
@@ -23,6 +33,11 @@ export const useImageUpload = () => {
       const { data: { publicUrl } } = supabase.storage
         .from('images')
         .getPublicUrl(filePath);
+
+      toast({
+        title: "Image uploaded",
+        description: "Your image has been saved permanently."
+      });
 
       return publicUrl;
     } catch (error) {
