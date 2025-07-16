@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured, type PortfolioProject } from '@/lib/supabase';
+import { handleSupabaseError } from '@/lib/errorHandler';
 import { useToast } from '@/hooks/use-toast';
 
 export const usePortfolio = () => {
@@ -111,7 +112,9 @@ export const usePortfolio = () => {
         setProjects(data || []);
       }
     } catch (error) {
-      console.error('Error fetching projects:', error);
+      const supabaseError = handleSupabaseError(error);
+      console.error('Error fetching projects:', supabaseError);
+      
       toast({
         title: "Connect to Supabase",
         description: "To save your portfolio images permanently, please connect to Supabase."
@@ -154,7 +157,9 @@ export const usePortfolio = () => {
         description: "Your changes have been saved."
       });
     } catch (error) {
-      console.error('Error updating project:', error);
+      const supabaseError = handleSupabaseError(error);
+      console.error('Error updating project:', supabaseError);
+      
       toast({
         title: "Update failed",
         description: "Failed to save changes. Please try again.",
