@@ -23,13 +23,42 @@ export const ImageUploadBox: React.FC<ImageUploadBoxProps> = ({
 }) => {
   const { uploadImage, uploading } = useImageUpload();
 
+  const validateFile = (file: File): string | null => {
+    // File size validation (5MB max)
+    const maxSize = 5 * 1024 * 1024; // 5MB
+    if (file.size > maxSize) {
+      return 'File size must be less than 5MB';
+    }
+
+    // File type validation
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+      return 'Only JPEG, PNG, WebP, and GIF images are allowed';
+    }
+
+    // File name validation (prevent path traversal)
+    const fileName = file.name.toLowerCase();
+    if (fileName.includes('..') || fileName.includes('/') || fileName.includes('\\')) {
+      return 'Invalid file name';
+    }
+
+    return null;
+  };
+
   const handleImageUpload = async () => {
     const input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*';
+    input.accept = 'image/jpeg,image/jpg,image/png,image/webp,image/gif';
     input.onchange = async (e) => {
       const file = (e.target as HTMLInputElement).files?.[0];
       if (file) {
+        // Validate file before upload
+        const validationError = validateFile(file);
+        if (validationError) {
+          console.error('File validation failed:', validationError);
+          return;
+        }
+
         const url = await uploadImage(file, 'site-images', uploadPath);
         if (url) {
           onImageUploaded(url);
