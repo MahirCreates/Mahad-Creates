@@ -1,4 +1,3 @@
-
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -12,9 +11,7 @@ const createMockClient = () => ({
       single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } })
     }),
     insert: (values: any) => ({
-      select: (columns?: string) => ({
-        single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
-      })
+      select: (columns?: string) => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
     }),
     update: (values: any) => ({
       eq: (column: string, value: any) => ({
