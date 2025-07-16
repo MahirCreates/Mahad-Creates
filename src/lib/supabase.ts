@@ -6,16 +6,28 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Create a mock client when Supabase is not configured
 const createMockClient = () => ({
-  from: () => ({
-    select: () => ({ single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } }) }),
-    insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }) }) }),
-    update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') }) }) }) }),
-    order: () => Promise.resolve({ data: [], error: null })
+  from: (table: string) => ({
+    select: (columns?: string) => ({
+      order: (column: string, options?: any) => Promise.resolve({ data: [], error: null }),
+      single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } })
+    }),
+    insert: (values: any) => ({
+      select: (columns?: string) => ({
+        single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+      })
+    }),
+    update: (values: any) => ({
+      eq: (column: string, value: any) => ({
+        select: (columns?: string) => ({
+          single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+        })
+      })
+    })
   }),
   storage: {
-    from: () => ({
-      upload: () => Promise.resolve({ error: new Error('Supabase not configured') }),
-      getPublicUrl: () => ({ data: { publicUrl: '' } })
+    from: (bucket: string) => ({
+      upload: (path: string, file: File, options?: any) => Promise.resolve({ error: new Error('Supabase not configured') }),
+      getPublicUrl: (path: string) => ({ data: { publicUrl: '' } })
     })
   }
 });
