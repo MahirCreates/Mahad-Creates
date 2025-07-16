@@ -91,7 +91,7 @@ export const usePortfolio = () => {
 
       if (error) throw error;
 
-      if (data.length === 0) {
+      if (data && data.length === 0) {
         // Initialize with default projects
         const { data: newProjects, error: insertError } = await supabase
           .from('portfolio_projects')
@@ -108,7 +108,7 @@ export const usePortfolio = () => {
         if (insertError) throw insertError;
         setProjects(newProjects || []);
       } else {
-        setProjects(data);
+        setProjects(data || []);
       }
     } catch (error) {
       console.error('Error fetching projects:', error);
