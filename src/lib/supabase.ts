@@ -11,11 +11,7 @@ const createMockClient = () => ({
       order: (column: string, options?: any) => Promise.resolve({ data: [], error: null }),
       single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } })
     }),
-    insert: (values: any) => ({
-      select: (columns?: string) => ({
-        single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
-      })
-    }),
+    insert: (values: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
     update: (values: any) => ({
       eq: (column: string, value: any) => ({
         select: (columns?: string) => ({
