@@ -11,7 +11,17 @@ const createMockClient = () => ({
       order: (column: string, options?: any) => Promise.resolve({ data: [], error: null }),
       single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } })
     }),
-    insert: (values: any) => Promise.resolve({ data: null, error: new Error('Supabase not configured') }),
+    insert: (values: any) => {
+      const baseResult = Promise.resolve({ data: null, error: new Error('Supabase not configured') });
+      return Object.assign(baseResult, {
+        select: (columns?: string) => {
+          const selectResult = Promise.resolve({ data: null, error: new Error('Supabase not configured') });
+          return Object.assign(selectResult, {
+            single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
+          });
+        }
+      });
+    },
     update: (values: any) => ({
       eq: (column: string, value: any) => ({
         select: (columns?: string) => ({
