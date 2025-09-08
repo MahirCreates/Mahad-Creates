@@ -16,7 +16,7 @@ export const usePortfolio = () => {
       title: 'Somali Business E-commerce',
       description: 'Complete online store with payment integration and inventory management for local Somali business.',
       category: 'Web Development',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/1.Somali_Business_EcommercePrompt_GENERATEA_modern_Soma_3.jpg',
       order_index: 1,
       updated_at: new Date().toISOString()
     },
