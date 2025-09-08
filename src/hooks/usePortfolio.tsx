@@ -26,7 +26,7 @@ export const usePortfolio = () => {
       title: 'Logistics App UI/UX',
       description: 'Modern logistics tracking application with real-time updates and user-friendly interface.',
       category: 'App Development',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/2.Logistics_App_UIUXPrompt_GENERATEMobilefirst_logistic_2.jpg?updatedAt=1757367865124',
       order_index: 2,
       updated_at: new Date().toISOString()
     },
@@ -36,7 +36,7 @@ export const usePortfolio = () => {
       title: 'AI Chatbot for Customer Support',
       description: 'Intelligent customer service bot with multilingual support for Somali businesses.',
       category: 'AI Solutions',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/3.AI_chatbot_interface_on_smartphone_in_Somali_language_3.jpg?updatedAt=1757367865117',
       order_index: 3,
       updated_at: new Date().toISOString()
     },
@@ -46,7 +46,7 @@ export const usePortfolio = () => {
       title: 'Video Ad Campaign',
       description: 'Commercial video production featuring Mahad as actor for local business promotion.',
       category: 'Video Production',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/From%20Concept%20to%20commercial%20We%20Create%20it%20All%20(1).png?updatedAt=1757367870500',
       order_index: 4,
       updated_at: new Date().toISOString()
     },
@@ -56,7 +56,7 @@ export const usePortfolio = () => {
       title: 'Diaspora Marketing Campaign',
       description: 'Comprehensive digital marketing strategy targeting Somali diaspora communities.',
       category: 'Digital Marketing',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/5.A_digital_marketing_dashboard_with_Somali_diaspora_ca_1.jpg?updatedAt=1757367866117',
       order_index: 5,
       updated_at: new Date().toISOString()
     },
@@ -66,7 +66,7 @@ export const usePortfolio = () => {
       title: 'Online Course Platform',
       description: 'Educational platform with course management, student tracking, and payment integration.',
       category: 'Web Development',
-      image_url: null,
+      image_url: 'https://ik.imagekit.io/weedadeveloper/6.%20ONLINE%20EDU%20WEBopenart-image_-bDL288Z_1752522768193_raw.jpg?updatedAt=1757367862933',
       order_index: 6,
       updated_at: new Date().toISOString()
     }

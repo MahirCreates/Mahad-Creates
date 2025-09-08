@@ -18,9 +18,9 @@ export const useSiteSettings = () => {
         // Use local state when Supabase is not configured
         const localSettings = {
           id: 'local',
-          logo_url: null,
-          cover_image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
-          founder_image_url: null,
+          logo_url: 'https://ik.imagekit.io/weedadeveloper/cropped_image%20(29)%20(1)%20(1).png?updatedAt=1757370842213',
+          cover_image_url: 'https://ik.imagekit.io/weedadeveloper/MY%20PERSONAL%20BRAND%20COVER%20(1).png?updatedAt=1757367870296',
+          founder_image_url: 'https://ik.imagekit.io/weedadeveloper/Web%20&%20App%20Developer%20%20AI%20Consultant%20%20Video%20Creator%20%20Digital%20Marketer%20(1).png?updatedAt=1757367869139',
           updated_at: new Date().toISOString()
         };
         setSettings(localSettings);
@@ -42,9 +42,9 @@ export const useSiteSettings = () => {
       } else {
         // Create default settings if none exist
         const defaultSettings = {
-          logo_url: null,
-          cover_image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
-          founder_image_url: null
+          logo_url: 'https://ik.imagekit.io/weedadeveloper/cropped_image%20(29)%20(1)%20(1).png?updatedAt=1757370842213',
+          cover_image_url: 'https://ik.imagekit.io/weedadeveloper/MY%20PERSONAL%20BRAND%20COVER%20(1).png?updatedAt=1757367870296',
+          founder_image_url: 'https://ik.imagekit.io/weedadeveloper/Web%20&%20App%20Developer%20%20AI%20Consultant%20%20Video%20Creator%20%20Digital%20Marketer%20(1).png?updatedAt=1757367869139'
         };
         
         const { data: newSettings, error: createError } = await supabase
@@ -66,9 +66,9 @@ export const useSiteSettings = () => {
       // Fallback to local settings
       const fallbackSettings = {
         id: 'local',
-        logo_url: null,
-        cover_image_url: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
-        founder_image_url: null,
+        logo_url: 'https://ik.imagekit.io/weedadeveloper/cropped_image%20(29)%20(1)%20(1).png?updatedAt=1757370842213',
+        cover_image_url: 'https://ik.imagekit.io/weedadeveloper/MY%20PERSONAL%20BRAND%20COVER%20(1).png?updatedAt=1757367870296',
+        founder_image_url: 'https://ik.imagekit.io/weedadeveloper/Web%20&%20App%20Developer%20%20AI%20Consultant%20%20Video%20Creator%20%20Digital%20Marketer%20(1).png?updatedAt=1757367869139',
         updated_at: new Date().toISOString()
       };
       setSettings(fallbackSettings);
