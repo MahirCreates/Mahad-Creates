@@ -144,37 +144,93 @@ const Index = () => {
     );
   }
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 80; // Account for fixed header
+      const elementPosition = element.offsetTop - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Header */}
-      <header className="border-b border-white/10 bg-black/20 backdrop-blur-md sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <ImageUploadBox
-              currentImage={settings?.logo_url}
-              onImageUploaded={(url) => updateSetting('logo_url', url)}
-              className="w-12 h-12"
-              uploadPath="logo"
-              placeholder="Logo"
-              aspectRatio="square"
-            />
-            <h1 className="text-2xl font-bold text-white">{currentText.hero.title}</h1>
+      {/* Fixed Navigation Bar */}
+      <nav className="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <ImageUploadBox
+                currentImage={settings?.logo_url}
+                onImageUploaded={(url) => updateSetting('logo_url', url)}
+                className="w-10 h-10"
+                uploadPath="logo"
+                placeholder="Logo"
+                aspectRatio="square"
+              />
+              <h1 className="text-xl font-bold text-white">{currentText.hero.title}</h1>
+            </div>
+            
+            {/* Navigation Menu */}
+            <div className="hidden md:flex items-center space-x-6">
+              <button 
+                onClick={() => scrollToSection('home')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Home
+              </button>
+              <button 
+                onClick={() => scrollToSection('portfolio')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Portfolio
+              </button>
+              <button 
+                onClick={() => scrollToSection('featured-work')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Featured Work
+              </button>
+              <button 
+                onClick={() => scrollToSection('services')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Services
+              </button>
+              <button 
+                onClick={() => scrollToSection('blog')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Blog
+              </button>
+              <button 
+                onClick={() => scrollToSection('contact')}
+                className="text-white/80 hover:text-white transition-colors duration-200 hover:scale-105"
+              >
+                Contact
+              </button>
+            </div>
+
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setLanguage(language === 'en' ? 'so' : 'en')}
+              className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+            >
+              <Languages className="w-4 h-4 mr-2" />
+              {language === 'en' ? 'SO' : 'EN'}
+            </Button>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setLanguage(language === 'en' ? 'so' : 'en')}
-            className="bg-white/10 border-white/20 text-white hover:bg-white/20"
-          >
-            <Languages className="w-4 h-4 mr-2" />
-            {language === 'en' ? 'SO' : 'EN'}
-          </Button>
         </div>
-      </header>
+      </nav>
 
       {/* Hero Section */}
       <section 
-        className="relative min-h-screen flex items-center justify-center bg-cover bg-center"
+        id="home"
+        className="relative min-h-screen flex items-center justify-center bg-cover bg-center pt-20"
         style={{ backgroundImage: `url(${settings?.cover_image_url || 'https://images.unsplash.com/photo-1518770660439-4636190af475'})` }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
@@ -234,8 +290,90 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Portfolio Section */}
+      <section id="portfolio" className="py-20 px-4 bg-black/20">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">Portfolio</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <Card key={project.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
+                <ImageUploadBox
+                  currentImage={project.image_url}
+                  onImageUploaded={(url) => updateProject(project.project_id, { image_url: url })}
+                  className="h-48"
+                  uploadPath={`portfolio-${project.project_id}`}
+                  placeholder="Upload Project Image"
+                  aspectRatio="landscape"
+                />
+                <CardContent className="p-6">
+                  <Badge variant="secondary" className="bg-purple-500/20 text-purple-200 mb-3 group-hover:bg-purple-400/30 transition-colors">
+                    {project.category}
+                  </Badge>
+                  <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-purple-200 transition-colors">{project.title}</h3>
+                  <p className="text-gray-300 group-hover:text-gray-200 transition-colors">{project.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Commercial Work Section */}
+      <section id="featured-work" className="py-20 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">Featured Commercial Work</h2>
+          <p className="text-xl text-gray-300 text-center mb-12">Professional video productions and commercial projects</p>
+          <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Video 1 */}
+            <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
+                <div className="text-center p-8">
+                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <p className="text-white/80 text-sm">Video 1 Embed Placeholder</p>
+                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 1</h3>
+                <p className="text-gray-300">Professional commercial video featuring innovative storytelling and compelling visual narratives.</p>
+              </CardContent>
+            </Card>
+
+            {/* Video 2 */}
+            <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
+                <div className="text-center p-8">
+                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <p className="text-white/80 text-sm">Video 2 Embed Placeholder</p>
+                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 2</h3>
+                <p className="text-gray-300">Dynamic marketing campaign showcasing brand identity and customer engagement strategies.</p>
+              </CardContent>
+            </Card>
+
+            {/* Video 3 */}
+            <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
+                <div className="text-center p-8">
+                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                  <p className="text-white/80 text-sm">Video 3 Embed Placeholder</p>
+                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
+                </div>
+              </div>
+              <CardContent className="p-6">
+                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 3</h3>
+                <p className="text-gray-300">Creative advertising content with focus on cultural authenticity and market impact.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
-      <section className="py-20 px-4 bg-black/20">
+      <section id="services" className="py-20 px-4 bg-black/20">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">Services & Pricing</h2>
           <p className="text-xl text-gray-300 text-center mb-12">Professional solutions tailored for the Somali market</p>
@@ -243,25 +381,28 @@ const Index = () => {
             {services.map((service) => {
               const IconComponent = service.icon;
               return (
-                <Card key={service.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                  <CardHeader>
-                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center mb-4">
-                      <IconComponent className="w-6 h-6 text-white" />
+                <Card key={service.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-600/5 to-pink-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <CardHeader className="relative z-10">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <IconComponent className="w-8 h-8 text-white group-hover:animate-pulse" />
                     </div>
-                    <CardTitle className="text-white text-xl">{service.title}</CardTitle>
-                    <div className="text-2xl font-bold text-purple-300">{service.price}</div>
+                    <CardTitle className="text-white text-xl group-hover:text-purple-200 transition-colors duration-300">{service.title}</CardTitle>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent group-hover:from-purple-200 group-hover:to-pink-200 transition-all duration-300">
+                      {service.price}
+                    </div>
                   </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-300 mb-6">{service.description}</p>
+                  <CardContent className="relative z-10">
+                    <p className="text-gray-300 mb-6 group-hover:text-gray-200 transition-colors duration-300">{service.description}</p>
                     <div className="space-y-3">
                       <Button 
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-purple-500/25"
                         onClick={() => copyPaymentInfo(service)}
                       >
                         <Copy className="w-4 h-4 mr-2" />
                         Copy Payment Info
                       </Button>
-                      <Button variant="outline" className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20">
+                      <Button variant="outline" className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300">
                         Request Service
                       </Button>
                     </div>
@@ -279,7 +420,7 @@ const Index = () => {
           <h2 className="text-4xl font-bold text-white text-center mb-12">Payment Methods</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {paymentMethods.map((method, index) => (
-              <Card key={index} className="bg-white/5 border-white/10">
+              <Card key={index} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -319,36 +460,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Portfolio Section */}
-      <section className="py-20 px-4 bg-black/20">
-        <div className="container mx-auto max-w-6xl">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">Portfolio</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <Card key={project.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                <ImageUploadBox
-                  currentImage={project.image_url}
-                  onImageUploaded={(url) => updateProject(project.project_id, { image_url: url })}
-                  className="h-48"
-                  uploadPath={`portfolio-${project.project_id}`}
-                  placeholder="Upload Project Image"
-                  aspectRatio="landscape"
-                />
-                <CardContent className="p-6">
-                  <Badge variant="secondary" className="bg-purple-500/20 text-purple-200 mb-3">
-                    {project.category}
-                  </Badge>
-                  <h3 className="text-xl font-semibold text-white mb-3">{project.title}</h3>
-                  <p className="text-gray-300">{project.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Blog Section */}
-      <section className="py-20 px-4">
+      <section id="blog" className="py-20 px-4 bg-black/20">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-4xl font-bold text-white text-center mb-12">Latest Insights</h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -377,7 +490,7 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-20 px-4 bg-black/20">
+      <section id="contact" className="py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h2 className="text-4xl font-bold text-white mb-12">Get In Touch</h2>
           <div className="grid md:grid-cols-3 gap-8 mb-12">
