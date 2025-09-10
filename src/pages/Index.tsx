@@ -326,16 +326,22 @@ const Index = () => {
           <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Video 1 */}
             <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
-              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
-                <div className="text-center p-8">
-                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <p className="text-white/80 text-sm">Video 1 Embed Placeholder</p>
-                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
-                </div>
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg relative overflow-hidden">
+                <video 
+                  className="w-full h-full object-cover rounded-t-lg"
+                  controls
+                  muted
+                  loop
+                  preload="metadata"
+                  poster=""
+                >
+                  <source src="https://ik.imagekit.io/weedadeveloper/Kuwait%20Specialist%20Hospital.mp4?updatedAt=1757468714438" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 1</h3>
-                <p className="text-gray-300">Professional commercial video featuring innovative storytelling and compelling visual narratives.</p>
+                <h3 className="text-xl font-semibold text-white mb-3">Kuwait Specialist Hospital</h3>
+                <p className="text-gray-300">Professional healthcare commercial showcasing advanced medical facilities and patient-centered care excellence.</p>
               </CardContent>
             </Card>
 
