@@ -347,31 +347,43 @@ const Index = () => {
 
             {/* Video 2 */}
             <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
-              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
-                <div className="text-center p-8">
-                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <p className="text-white/80 text-sm">Video 2 Embed Placeholder</p>
-                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
-                </div>
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg relative overflow-hidden">
+                <video 
+                  className="w-full h-full object-cover rounded-t-lg"
+                  controls
+                  muted
+                  loop
+                  preload="metadata"
+                  poster=""
+                >
+                  <source src="https://ik.imagekit.io/weedadeveloper/Century%20Perfumes%20and%20Gifts.mp4?updatedAt=1757468537228" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 2</h3>
-                <p className="text-gray-300">Dynamic marketing campaign showcasing brand identity and customer engagement strategies.</p>
+                <h3 className="text-xl font-semibold text-white mb-3">Century Perfumes and Gifts</h3>
+                <p className="text-gray-300">Premium retail commercial highlighting luxury fragrances and gift collections with elegant presentation.</p>
               </CardContent>
             </Card>
 
             {/* Video 3 */}
             <Card className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105 group">
-              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg flex items-center justify-center relative overflow-hidden">
-                <div className="text-center p-8">
-                  <Video className="w-16 h-16 text-purple-300 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <p className="text-white/80 text-sm">Video 3 Embed Placeholder</p>
-                  <p className="text-white/60 text-xs mt-2">Paste ImageKit.io embed code here</p>
-                </div>
+              <div className="aspect-video bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-t-lg relative overflow-hidden">
+                <video 
+                  className="w-full h-full object-cover rounded-t-lg"
+                  controls
+                  muted
+                  loop
+                  preload="metadata"
+                  poster=""
+                >
+                  <source src="https://ik.imagekit.io/weedadeveloper/commercial%20video%20on%20Hilaal%20Milk%20Powder.mp4?updatedAt=1757468529777" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
               <CardContent className="p-6">
-                <h3 className="text-xl font-semibold text-white mb-3">Commercial Project 3</h3>
-                <p className="text-gray-300">Creative advertising content with focus on cultural authenticity and market impact.</p>
+                <h3 className="text-xl font-semibold text-white mb-3">Hilaal Milk Powder</h3>
+                <p className="text-gray-300">Food industry commercial emphasizing nutritional quality and family values with authentic storytelling.</p>
               </CardContent>
             </Card>
           </div>
