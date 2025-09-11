@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import ServiceRequestModal from '@/components/ServiceRequestModal';
+import ContactForm from '@/components/ContactForm';
+import FAQSection from '@/components/FAQSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import BlogModal from '@/components/BlogModal';
 import { 
   Upload, 
   Play, 
@@ -30,6 +35,10 @@ import { ImageUploadBox } from '@/components/ImageUploadBox';
 const Index = () => {
   const { toast } = useToast();
   const [language, setLanguage] = useState('en');
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [selectedBlogArticle, setSelectedBlogArticle] = useState<any>(null);
+  const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
   const { settings, loading: settingsLoading, updateSetting } = useSiteSettings();
   const { projects, loading: projectsLoading, updateProject } = usePortfolio();
 
@@ -117,6 +126,200 @@ const Index = () => {
   };
 
   const currentText = text[language as keyof typeof text];
+
+  // Blog articles data
+  const blogArticles = [
+    {
+      id: 1,
+      title: "Why Somali Businesses Need Online Presence",
+      excerpt: "In today's digital age, Somali businesses can no longer afford to ignore the power of online presence. From reaching diaspora communities to expanding local market share, a strong digital footprint is essential for growth and sustainability...",
+      content: `In today's digital age, Somali businesses can no longer afford to ignore the power of online presence. The digital revolution has transformed how customers discover, interact with, and purchase from businesses worldwide, and Somalia is no exception.
+
+**Reaching the Diaspora Community**
+
+One of the most significant advantages of having an online presence is the ability to connect with the vast Somali diaspora spread across the globe. With over 2 million Somalis living abroad, primarily in the United States, Canada, UK, and other European countries, these communities represent a massive untapped market for Somali businesses.
+
+Online platforms allow businesses to:
+- Showcase authentic Somali products to diaspora communities
+- Accept international payments and arrange shipping
+- Build brand loyalty among overseas Somalis
+- Create cultural connections through digital storytelling
+
+**Local Market Expansion**
+
+Even within Somalia, internet penetration has grown dramatically. Mobile money services like EVC and Edahab have made online transactions commonplace, creating a foundation for e-commerce growth.
+
+**Cost-Effective Marketing**
+
+Traditional advertising methods like radio and print can be expensive and have limited reach. Digital marketing offers:
+- Targeted advertising to specific demographics
+- Measurable results and analytics
+- Lower costs compared to traditional media
+- Ability to adjust campaigns in real-time
+
+**Building Trust and Credibility**
+
+A professional website and active social media presence signal legitimacy and trustworthiness to potential customers. This is particularly important for businesses looking to:
+- Attract international partnerships
+- Build customer confidence
+- Establish thought leadership in their industry
+
+**The Path Forward**
+
+Successful digital transformation requires:
+1. Professional website development
+2. Social media strategy and management
+3. Search engine optimization (SEO)
+4. Online payment integration
+5. Customer service automation
+
+The businesses that embrace digital transformation today will be the market leaders of tomorrow. Don't let your competition get ahead – start building your online presence now.`,
+      author: "Mahad Hassan",
+      date: "December 15, 2024",
+      readTime: "5 min read",
+      category: "Digital Marketing",
+      tags: ["business", "digital", "somalia", "marketing", "ecommerce"]
+    },
+    {
+      id: 2,
+      title: "How AI Can Boost Freelancing in East Africa",
+      excerpt: "Artificial Intelligence is revolutionizing the freelancing landscape in East Africa. From automated customer service to intelligent content creation, AI tools are empowering local freelancers to compete on a global scale...",
+      content: `Artificial Intelligence is revolutionizing the freelancing landscape in East Africa, creating unprecedented opportunities for skilled professionals to compete on a global scale. As AI tools become more accessible and affordable, freelancers in Somalia, Kenya, Ethiopia, and other East African countries are leveraging these technologies to enhance their services and increase their earning potential.
+
+**Current Freelancing Landscape in East Africa**
+
+East Africa has emerged as a significant player in the global freelancing market, with countries like Kenya leading in tech innovation and Somalia showing rapid growth in digital services. The region's advantages include:
+- High English proficiency rates
+- Growing internet infrastructure
+- Competitive pricing compared to Western markets
+- Strong cultural work ethic and client service focus
+
+**AI Tools Transforming Freelance Work**
+
+**1. Content Creation and Writing**
+AI writing assistants help freelancers:
+- Generate ideas and outlines quickly
+- Improve grammar and style
+- Translate content for multilingual clients
+- Create content at scale while maintaining quality
+
+**2. Design and Creative Services**
+AI-powered design tools enable:
+- Rapid prototype creation
+- Automated image editing and enhancement
+- Logo and brand identity generation
+- Video editing assistance
+
+**3. Programming and Development**
+AI coding assistants provide:
+- Code generation and debugging
+- Documentation creation
+- Testing automation
+- Architecture planning
+
+**4. Customer Service and Communication**
+AI chatbots and tools help freelancers:
+- Provide 24/7 client support
+- Handle multiple projects simultaneously
+- Automate routine communications
+- Manage project timelines effectively
+
+**Opportunities for East African Freelancers**
+
+**Virtual Assistance 2.0**
+Traditional virtual assistance is evolving with AI integration. Freelancers can now offer:
+- Intelligent email management
+- Automated social media posting
+- Data analysis and reporting
+- Customer relationship management
+
+**AI Training and Consultation**
+As businesses worldwide adopt AI, there's growing demand for:
+- AI implementation consulting
+- Training on AI tool usage
+- Custom AI solution development
+- AI ethics and compliance advice
+
+**Niche Specializations**
+AI enables freelancers to develop expertise in:
+- AI prompt engineering
+- Machine learning model training
+- Natural language processing applications
+- Computer vision projects
+
+**Overcoming Challenges**
+
+**Infrastructure Development**
+- Reliable internet connectivity remains crucial
+- Access to high-performance computing resources
+- Payment gateway integration for international clients
+
+**Skill Development**
+- Continuous learning about new AI tools
+- Understanding AI limitations and best practices
+- Building technical expertise alongside creative skills
+
+**Market Positioning**
+- Highlighting unique cultural insights and perspectives
+- Demonstrating AI-enhanced capabilities to clients
+- Building strong online portfolios and personal brands
+
+**Success Stories**
+
+Many East African freelancers are already seeing significant success:
+- Content creators increasing output by 300% using AI writing tools
+- Designers completing projects 50% faster with AI assistance
+- Developers building more complex applications with AI code generation
+
+**The Future Outlook**
+
+The combination of AI tools and East African talent creates a powerful competitive advantage. As AI continues to evolve, freelancers who adapt and integrate these technologies will find themselves at the forefront of the global digital economy.
+
+**Getting Started**
+
+For freelancers looking to integrate AI into their workflow:
+1. Start with free AI tools to understand capabilities
+2. Focus on one or two AI applications initially
+3. Invest time in learning prompt engineering
+4. Build a portfolio showcasing AI-enhanced work
+5. Network with other AI-savvy freelancers
+
+The future of freelancing in East Africa is bright, and AI is the catalyst that will accelerate this growth. Those who embrace these changes today will be the industry leaders of tomorrow.`,
+      author: "Mahad Hassan",
+      date: "December 10, 2024",
+      readTime: "7 min read",
+      category: "Artificial Intelligence",
+      tags: ["AI", "freelancing", "east-africa", "technology", "automation"]
+    }
+  ];
+
+  const openServiceModal = (service: any) => {
+    setSelectedService(service);
+    setIsServiceModalOpen(true);
+  };
+
+  const openBlogModal = (article: any) => {
+    setSelectedBlogArticle(article);
+    setIsBlogModalOpen(true);
+  };
+
+  const handleIntroVideoUpload = () => {
+    // Create a file input dynamically
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'video/*';
+    fileInput.onchange = (e: any) => {
+      const file = e.target.files[0];
+      if (file) {
+        // Here you would typically upload to your storage service
+        toast({
+          title: "Video Selected",
+          description: `Selected: ${file.name}. Upload functionality will be implemented with your storage service.`
+        });
+      }
+    };
+    fileInput.click();
+  };
 
   const copyPaymentInfo = (service: any) => {
     const paymentText = `Service: ${service.title}\nPrice: ${service.price}\n\nPayment Methods:\n${paymentMethods.map(method => `${method.name}: ${method.number}`).join('\n')}\n\nPlease send payment with your full name as reference.`;
@@ -250,7 +453,11 @@ const Index = () => {
           </h1>
           <p className="text-2xl md:text-3xl text-purple-200 mb-4">{currentText.hero.subtitle}</p>
           <p className="text-xl text-gray-300 mb-8">{currentText.hero.description}</p>
-          <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg">
+          <Button 
+            size="lg" 
+            onClick={() => scrollToSection('services')}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg hover:scale-105 transition-all duration-300"
+          >
             {currentText.hero.cta}
           </Button>
         </div>
@@ -281,7 +488,11 @@ const Index = () => {
                 placeholder="Upload Founder Photo"
                 aspectRatio="square"
               />
-              <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              <Button 
+                variant="outline" 
+                onClick={handleIntroVideoUpload}
+                className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300"
+              >
                 <Play className="w-4 h-4 mr-2" />
                 Upload Intro Video
               </Button>
@@ -420,7 +631,11 @@ const Index = () => {
                         <Copy className="w-4 h-4 mr-2" />
                         Copy Payment Info
                       </Button>
-                      <Button variant="outline" className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300">
+                      <Button 
+                        variant="outline" 
+                        onClick={() => openServiceModal(service)}
+                        className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300"
+                      >
                         Request Service
                       </Button>
                     </div>
@@ -483,73 +698,121 @@ const Index = () => {
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-4xl font-bold text-white text-center mb-12">Latest Insights</h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-white/5 border-white/10">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">Why Somali Businesses Need Online Presence</h3>
-                <p className="text-gray-300 mb-6">In today's digital age, Somali businesses can no longer afford to ignore the power of online presence. From reaching diaspora communities to expanding local market share, a strong digital footprint is essential for growth and sustainability...</p>
-                <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Read More
-                </Button>
-              </CardContent>
-            </Card>
-            <Card className="bg-white/5 border-white/10">
-              <CardContent className="p-8">
-                <h3 className="text-2xl font-bold text-white mb-4">How AI Can Boost Freelancing in East Africa</h3>
-                <p className="text-gray-300 mb-6">Artificial Intelligence is revolutionizing the freelancing landscape in East Africa. From automated customer service to intelligent content creation, AI tools are empowering local freelancers to compete on a global scale...</p>
-                <Button variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Read More
-                </Button>
-              </CardContent>
-            </Card>
+            {blogArticles.map((article) => (
+              <Card key={article.id} className="bg-white/5 border-white/10 hover:bg-white/10 transition-all duration-300 hover:scale-105">
+                <CardContent className="p-8">
+                  <div className="mb-4">
+                    <Badge className="bg-purple-500/20 text-purple-200 mb-2">
+                      {article.category}
+                    </Badge>
+                    <div className="text-sm text-gray-400">
+                      {article.date} • {article.readTime}
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-white mb-4">{article.title}</h3>
+                  <p className="text-gray-300 mb-6">{article.excerpt}</p>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => openBlogModal(article)}
+                    className="bg-white/10 border-white/20 text-white hover:bg-white/20 hover:scale-105 transition-all duration-300"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Read More
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-4">
-        <div className="container mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl font-bold text-white mb-12">Get In Touch</h2>
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
-                <Phone className="w-8 h-8 text-white" />
-              </div>
-              <p className="text-white font-semibold">Phone/WhatsApp</p>
-              <a href="tel:+252615240484" className="text-purple-300 hover:text-purple-200">+252 615240484</a>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
-                <Mail className="w-8 h-8 text-white" />
-              </div>
-              <p className="text-white font-semibold">Email</p>
-              <a href="mailto:hello.mahadcreates@gmail.com" className="text-purple-300 hover:text-purple-200">hello.mahadcreates@gmail.com</a>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mb-4">
-                <MapPin className="w-8 h-8 text-white" />
-              </div>
-              <p className="text-white font-semibold">Location</p>
-              <p className="text-purple-300">Mogadishu, Somalia</p>
-            </div>
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Get In Touch</h2>
+            <p className="text-xl text-gray-300">Ready to start your project? Let's discuss your ideas</p>
           </div>
-          <div className="flex justify-center space-x-6">
-            <Button size="lg" variant="outline" className="bg-blue-600 hover:bg-blue-700 border-blue-600 text-white">
-              <Facebook className="w-5 h-5 mr-2" />
-              Facebook
-            </Button>
-            <Button size="lg" variant="outline" className="bg-red-600 hover:bg-red-700 border-red-600 text-white">
-              <Youtube className="w-5 h-5 mr-2" />
-              YouTube
-            </Button>
-            <Button size="lg" variant="outline" className="bg-blue-700 hover:bg-blue-800 border-blue-700 text-white">
-              <Linkedin className="w-5 h-5 mr-2" />
-              LinkedIn
-            </Button>
+          
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Contact Information */}
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <p className="text-white font-semibold mb-2">Phone/WhatsApp</p>
+                  <a 
+                    href="https://wa.me/252615240484" 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-300 hover:text-purple-200 transition-colors"
+                  >
+                    +252 615240484
+                  </a>
+                </div>
+                <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
+                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Mail className="w-6 h-6 text-white" />
+                  </div>
+                  <p className="text-white font-semibold mb-2">Email</p>
+                  <a 
+                    href="mailto:hello.mahadcreates@gmail.com" 
+                    className="text-purple-300 hover:text-purple-200 transition-colors"
+                  >
+                    hello.mahadcreates@gmail.com
+                  </a>
+                </div>
+              </div>
+              
+              <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="w-6 h-6 text-white" />
+                </div>
+                <p className="text-white font-semibold mb-2">Location</p>
+                <p className="text-purple-300">Mogadishu, Somalia</p>
+              </div>
+
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button 
+                  size="lg" 
+                  onClick={() => window.open('https://facebook.com/mahadcreates', '_blank')}
+                  className="bg-blue-600 hover:bg-blue-700 border-blue-600 text-white hover:scale-105 transition-all duration-300"
+                >
+                  <Facebook className="w-5 h-5 mr-2" />
+                  Facebook
+                </Button>
+                <Button 
+                  size="lg" 
+                  onClick={() => window.open('https://youtube.com/@mahadcreates', '_blank')}
+                  className="bg-red-600 hover:bg-red-700 border-red-600 text-white hover:scale-105 transition-all duration-300"
+                >
+                  <Youtube className="w-5 h-5 mr-2" />
+                  YouTube
+                </Button>
+                <Button 
+                  size="lg" 
+                  onClick={() => window.open('https://linkedin.com/in/mahadcreates', '_blank')}
+                  className="bg-blue-700 hover:bg-blue-800 border-blue-700 text-white hover:scale-105 transition-all duration-300"
+                >
+                  <Linkedin className="w-5 h-5 mr-2" />
+                  LinkedIn
+                </Button>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <ContactForm />
           </div>
         </div>
       </section>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
+      {/* FAQ Section */}
+      <FAQSection />
 
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-white/10">
@@ -557,6 +820,19 @@ const Index = () => {
           <p className="text-gray-400">© 2024 Mahad Creates. All rights reserved.</p>
         </div>
       </footer>
+
+      {/* Modals */}
+      <ServiceRequestModal 
+        isOpen={isServiceModalOpen}
+        onClose={() => setIsServiceModalOpen(false)}
+        service={selectedService}
+      />
+      
+      <BlogModal 
+        isOpen={isBlogModalOpen}
+        onClose={() => setIsBlogModalOpen(false)}
+        article={selectedBlogArticle}
+      />
     </div>
   );
 };
