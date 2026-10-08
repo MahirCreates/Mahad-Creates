@@ -1,48 +1,8 @@
+import { supabase as realClient } from "@/integrations/supabase/client";
 
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-// Create a mock client when Supabase is not configured
-const createMockClient = () => ({
-  from: (table: string) => ({
-    select: (columns?: string) => ({
-      order: (column: string, options?: any) => Promise.resolve({ data: [], error: null }),
-      single: () => Promise.resolve({ data: null, error: { code: 'PGRST116' } })
-    }),
-    insert: (values: any) => {
-      const baseResult = Promise.resolve({ data: null, error: new Error('Supabase not configured') });
-      return Object.assign(baseResult, {
-        select: (columns?: string) => {
-          const selectResult = Promise.resolve({ data: null, error: new Error('Supabase not configured') });
-          return Object.assign(selectResult, {
-            single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
-          });
-        }
-      });
-    },
-    update: (values: any) => ({
-      eq: (column: string, value: any) => ({
-        select: (columns?: string) => ({
-          single: () => Promise.resolve({ data: null, error: new Error('Supabase not configured') })
-        })
-      })
-    })
-  }),
-  storage: {
-    from: (bucket: string) => ({
-      upload: (path: string, file: File, options?: any) => Promise.resolve({ error: new Error('Supabase not configured') }),
-      getPublicUrl: (path: string) => ({ data: { publicUrl: '' } })
-    })
-  }
-});
-
-export const supabase = (!supabaseUrl || !supabaseAnonKey) 
-  ? createMockClient() 
-  : createClient(supabaseUrl, supabaseAnonKey);
-
-export const isSupabaseConfigured = !!(supabaseUrl && supabaseAnonKey);
+// Use the real, connected Supabase client
+export const supabase = realClient as any;
+export const isSupabaseConfigured = true;
 
 export type SiteSettings = {
   id: string;
