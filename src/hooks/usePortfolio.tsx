@@ -1,13 +1,9 @@
 
-import { useState, useEffect } from 'react';
-import { supabase, isSupabaseConfigured, type PortfolioProject } from '@/lib/supabase';
-import { handleSupabaseError } from '@/lib/errorHandler';
-import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
+import type { PortfolioProject } from '@/lib/siteTypes';
 
 export const usePortfolio = () => {
-  const [projects, setProjects] = useState<PortfolioProject[]>([]);
-  const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
+  
 
   const defaultProjects = [
     {
@@ -72,101 +68,11 @@ export const usePortfolio = () => {
     }
   ];
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
-
-  const fetchProjects = async () => {
-    try {
-      if (!isSupabaseConfigured) {
-        // Use default projects when Supabase is not configured
-        setProjects(defaultProjects);
-        setLoading(false);
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('portfolio_projects')
-        .select('*')
-        .order('order_index');
-
-      if (error) throw error;
-
-      if (data && data.length === 0) {
-        // Initialize with default projects
-        const { data: newProjects, error: insertError } = await supabase
-          .from('portfolio_projects')
-          .insert(defaultProjects.map(p => ({ 
-            project_id: p.project_id,
-            title: p.title,
-            description: p.description,
-            category: p.category,
-            image_url: p.image_url,
-            order_index: p.order_index
-          })))
-          .select();
-
-        if (insertError) throw insertError;
-        setProjects(newProjects || []);
-      } else {
-        setProjects(data || []);
-      }
-    } catch (error) {
-      const supabaseError = handleSupabaseError(error);
-      console.error('Error fetching projects:', supabaseError);
-      
-      toast({
-        title: "Connect to Supabase",
-        description: "To save your portfolio images permanently, please connect to Supabase."
-      });
-      
-      // Fallback to default projects
-      setProjects(defaultProjects);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [projects, setProjects] = useState<PortfolioProject[]>(defaultProjects);
 
   const updateProject = async (projectId: string, updates: Partial<PortfolioProject>) => {
-    try {
-      if (!isSupabaseConfigured) {
-        // Update local state only
-        setProjects(prev => prev.map(p => 
-          p.project_id === projectId ? { ...p, ...updates } : p
-        ));
-        toast({
-          title: "Temporary update",
-          description: "Changes are temporary. Connect to Supabase to save permanently."
-        });
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('portfolio_projects')
-        .update(updates)
-        .eq('project_id', projectId)
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      setProjects(prev => prev.map(p => p.project_id === projectId ? data : p));
-      
-      toast({
-        title: "Project updated",
-        description: "Your changes have been saved."
-      });
-    } catch (error) {
-      const supabaseError = handleSupabaseError(error);
-      console.error('Error updating project:', supabaseError);
-      
-      toast({
-        title: "Update failed",
-        description: "Failed to save changes. Please try again.",
-        variant: "destructive"
-      });
-    }
+    setProjects(prev => prev.map(p => (p.project_id === projectId ? { ...p, ...updates } : p)));
   };
 
-  return { projects, loading, updateProject, refetch: fetchProjects };
+  return { projects, loading: false, updateProject, refetch: async () => setProjects(defaultProjects) };
 };
