@@ -1,9 +1,3 @@
-import { supabase as realClient } from "@/integrations/supabase/client";
-
-// Use the real, connected Supabase client
-export const supabase = realClient as any;
-export const isSupabaseConfigured = true;
-
 export type SiteSettings = {
   id: string;
   logo_url: string | null;
